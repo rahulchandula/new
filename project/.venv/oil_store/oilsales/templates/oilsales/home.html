@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <style>
+    /* Add CSS to set a fixed width and height for the images */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust column width as needed */
+      gap: 20px; /* Adjust the gap between products as needed */
+    }
+
+    .product {
+      text-align: center; /* Center-align the content within each product block */
+    }
+
+    .product-image {
+      width: 100%; /* Ensure the image takes the full width of its container */
+      height: 200px; /* Adjust the height as needed */
+      object-fit: cover; /* This property ensures the image maintains its aspect ratio */
+    }
+  </style>
+
+  <h2>Welcome to Oil Store</h2>
+  <div class="product-grid">
+    {% for product in products %}
+      <div class="product">
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+        <h3>{{ product.name }}</h3>
+        <p>Price: {{ product.price }}</p>
+        <form method="post" action="{% url 'add_to_cart' product.id %}">
+          {% csrf_token %}
+          <button type="submit">Add to Cart</button>
+        </form>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

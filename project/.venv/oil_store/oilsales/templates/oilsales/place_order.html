@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Place Your Order</h2>
+  <form method="post" action="{% url 'place_order' %}">
+    {% csrf_token %}
+    <label for="address">Delivery Address:</label>
+    <textarea id="address" name="address" required></textarea><br>
+    <button type="submit">Place Order</button>
+  </form>
+{% endblock %}

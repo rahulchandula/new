@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Your Cart</h2>
+  <form method="post">
+    {% csrf_token %}
+    <ul>
+      {% for item in order.orderitem_set.all %}
+        <li>
+          {{ item.product.name }} - 
+          Quantity: {{ item.quantity }} - 
+          Price: ₹{{ item.product.price|floatformat:"2" }} each
+          <button type="submit" name="item_id" value="{{ item.id }}">Delete</button>
+        </li>
+      {% endfor %}
+    </ul>
+    <p>Total Price: ₹{{ total_price }}</p>
+  </form>
+  <form method="post" action="{% url 'place_order' %}">
+    {% csrf_token %}
+    <label for="address">Delivery Address:</label>
+    <textarea id="address" name="address" required></textarea><br>
+    <button type="submit">Place Order</button>
+  </form>
+{% endblock %}
